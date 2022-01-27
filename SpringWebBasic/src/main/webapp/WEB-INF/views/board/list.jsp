@@ -29,11 +29,11 @@
 			<tr>
 				<td>${num.index + 1}</td>
 				<td>
-					<a href="<c:url value="/board/content?boardNo=${num.index + 1}" />">${article.title}</a>
+					<a href="<c:url value='/board/content?boardNo=${num.index + 1}' />">${article.title}</a>
 				</td>
 				<td>${article.writer}</td>
 				<td>
-					<a href="<c:url value="/board/delete?boardNo=${num.index + 1}" />">[삭제]</a>
+					<a href="<c:url value='/board/delete?boardNo=${num.index + 1}' />">[삭제]</a>
 				</td>
 			</tr>
 		</c:forEach>

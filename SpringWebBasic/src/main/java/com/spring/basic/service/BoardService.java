@@ -13,7 +13,7 @@ public class BoardService implements IBoardService {
 
 	@Autowired
 	private IBoardDAO dao;
-	
+
 	@Override
 	public void insertArticle(BoardVO vo) {
 		dao.insertArticle(vo);
@@ -26,20 +26,17 @@ public class BoardService implements IBoardService {
 
 	@Override
 	public BoardVO getArticle(int bId) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.getArticle(bId - 1);
 	}
 
 	@Override
 	public void deleteArticle(int bId) {
-		// TODO Auto-generated method stub
-
+		dao.deleteArticle(bId);
 	}
 
 	@Override
 	public void updateArticle(BoardVO vo, int bId) {
-		// TODO Auto-generated method stub
-
+		dao.updateArticle(vo, bId - 1);
 	}
 
 }

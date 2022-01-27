@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.spring.basic.model.BoardVO;
 import com.spring.basic.service.IBoardService;
@@ -51,21 +53,39 @@ public class BoardController {
 	//메서드 이름 -> content, 요청 url -> /content
 	//DB 역할을 하는 리스트에서 글 번호에 해당하는 글 객체를 content.jsp로 보내주세요.
 	//content.jsp에서 해당 글 정보를 모두 출력해 주세요.
-
-
+	@GetMapping("/content")
+	public void content(@ModelAttribute("boardNo") int boardNo, Model model) {
+		System.out.println("/board/content?boardNo = " + boardNo);
+		model.addAttribute("article",service.getArticle(boardNo));
+	}
 
 	//글 수정하기 화면으로 이동 요청 (/modify: GET)
 	//form태그에 작성자, 제목, 내용을 수정할 수 있는 폼을 만들어서 수정 받아 주세요.
 	//글 번호는 숨겨서 폼 데이터와 함께 보내 주세요.
-
+	@GetMapping("/modify")
+	public void modify(@ModelAttribute("boardNo") int boardNo, Model model) {
+		System.out.println("/board/modify?boardNo = " + boardNo);
+		model.addAttribute("article", service.getArticle(boardNo));
+	}
 
 	//modify.jsp를 생성해서 form태그에 사용자가 처음에 작성했던 내용이 드러나도록
 	//배치해 주시고 수정을 받아 주세요.
 	//수정 처리하는 메서드: modify(), 요청 url: /modify -> POST
 	//수정 처리 완료 이후 방금 수정한 글의 상세보기 요청이 다시 들어올 수 있도록 작성하세요.
 
-
+	@PostMapping("/modify")
+	public String modify(@RequestParam("boardNo") int boardNo, BoardVO vo) {
+		System.out.println("/board/modify : POST " + boardNo);
+		service.updateArticle(vo, boardNo);
+		return "redirect:/board/content?boardNo=" + boardNo;
+	}
 	//삭제는 알아서 작성해 주세요.
+	@GetMapping("/delete")
+	public String delete(@RequestParam("boardNo") int boardNo) {
+		System.out.println("/board/delete?boardNo=" + boardNo);
+		service.deleteArticle(boardNo);
+		return "redirect:/board/list";
+	}
 
 }
 
