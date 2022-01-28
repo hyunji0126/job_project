@@ -19,7 +19,8 @@ public interface IBoardDAO {
 	void deleteArticle(int bId);
 	
 	//게시글 수정
-	void updateArticle(BoardVO vo, int bId);
+	void updateArticle(BoardVO vo);
 
-
+	//게시글 검색
+	List<BoardVO> searchList(String keyword);
 }

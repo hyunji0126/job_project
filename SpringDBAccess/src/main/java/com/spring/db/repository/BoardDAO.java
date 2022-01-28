@@ -64,11 +64,16 @@ public class BoardDAO implements IBoardDAO {
 	}
 
 	@Override
-	public void updateArticle(BoardVO vo, int bId) {
-//		template.update(vo.getWriter(), getArticle(bId));
-		String sql = "UPDATE jdbc_board SET writer=?, content=? WHERE board_no=?";
-		template.update(sql, vo.getWriter(),vo.getContent(), bId);
-				
+	public void updateArticle(BoardVO vo) {
+		String sql = "UPDATE jdbc_board SET writer=?, title=?, content=? WHERE board_no=?";
+		template.update(sql, vo.getWriter(), vo.getTitle(), vo.getContent(), vo.getboard_no());
 	}
+	
+	@Override
+	public List<BoardVO> searchList(String keyword) {
+		String sql = "SELECT * FROM jdbc_board WHERE writer LIKE ";
+		return template.query(sql, new BoardMapper(), keyword);
+	}	
+	
 
 }

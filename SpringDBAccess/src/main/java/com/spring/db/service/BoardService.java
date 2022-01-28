@@ -7,36 +7,55 @@ import org.springframework.stereotype.Service;
 
 import com.spring.db.model.BoardVO;
 import com.spring.db.repository.IBoardDAO;
+import com.spring.db.repository.IBoardMapper;
 
 @Service
 public class BoardService implements IBoardService {
-
+	
 	@Autowired
-	private IBoardDAO dao;
-
+	private IBoardMapper mapper;
+	
 	@Override
 	public void insertArticle(BoardVO vo) {
-		dao.insertArticle(vo);
+		mapper.insertArticle(vo);
 	}
 
 	@Override
 	public List<BoardVO> getArticles() {
-		return dao.getArticles();
+		return mapper.getArticles();
 	}
 
 	@Override
 	public BoardVO getArticle(int bId) {
-		return dao.getArticle(bId);
+		return mapper.getArticle(bId);
 	}
 
 	@Override
 	public void deleteArticle(int bId) {
-		dao.deleteArticle(bId);
+		mapper.deleteArticle(bId);
 	}
 
 	@Override
-	public void updateArticle(BoardVO vo, int bId) {
-		dao.updateArticle(vo, bId);
+	public void updateArticle(BoardVO vo) {
+		mapper.updateArticle(vo);
 	}
 
+	@Override
+	public List<BoardVO> searchList(String keyword) {
+		keyword = "%" + keyword + "%";
+		return mapper.searchList(keyword);
+	}
+	
+	
 }
+
+
+
+
+
+
+
+
+
+
+

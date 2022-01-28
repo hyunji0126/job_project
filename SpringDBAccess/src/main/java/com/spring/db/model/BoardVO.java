@@ -7,8 +7,6 @@ public class BoardVO {
 	private String title;
 	private String content;
 	
-	
-	
 	public int getboard_no() {
 		return board_no;
 	}

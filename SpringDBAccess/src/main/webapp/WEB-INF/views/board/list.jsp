@@ -38,7 +38,11 @@
 			</tr>
 		</c:forEach>
 	</table>
-	
+	<br>
+	<form action="<c:url value='/board/searchList' />">
+		<input type="text" name="keyword" placeholder="작성자 이름을 입력하세요.">
+		<input type="submit" value="검색">
+	</form>
 	<a href="/db/board/write">게시물 작성하기</a>
 
 </body>
