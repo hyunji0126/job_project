@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.db.model.BoardVO;
-import com.spring.db.repository.IBoardDAO;
 import com.spring.db.repository.IBoardMapper;
 
 @Service

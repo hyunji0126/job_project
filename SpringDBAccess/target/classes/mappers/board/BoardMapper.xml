@@ -12,7 +12,7 @@
 	<insert id="insertArticle">
 		INSERT INTO jdbc_board
 		VALUES (bid_seq.NEXTVAL,
-		#{board_no},#{writer},#{title},#{content})
+		#{writer},#{title},#{content})
 	</insert>
 
 	<select id="getArticles" resultMap="BoardMap">

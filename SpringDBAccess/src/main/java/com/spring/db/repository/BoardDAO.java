@@ -32,9 +32,9 @@ public class BoardDAO implements IBoardDAO {
 	private JdbcTemplate template;
 	
 	@Override
-	public void insertArticle(BoardVO board) {
+	public void insertArticle(BoardVO vo) {
 		String sql = "INSERT INTO jdbc_board VALUES(bid_seq.NEXTVAL,?,?,?)";
-		template.update(sql, board.getWriter(), board.getTitle(), board.getContent());
+		template.update(sql, vo.getWriter(), vo.getTitle(), vo.getContent());
 	}
 
 	@Override
