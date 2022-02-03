@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> <!-- mybatis mapper 연결때매 넣은것 -->
+
+
+<mapper namespace="com.spring.mvc.board.repository.IBoardMapper"> <!-- 인터페이스 어딜 바라보고있는지 보여줌 -->
+
+	<!-- DB컬럼명과 VO이 필드명을 맞추는 ResultMap 선언 -->
+	<resultMap type="com.spring.mvc.board.model.BoardVO"
+		id="BoardMap">
+		<id property="boardNo" column="board_no" />
+		<result property="regDate" column="reg_date" />
+		<result property="viewCnt" column="view_cnt" />
+	</resultMap>
+
+	<insert id="insert"> <!-- insert의 매개변수가 BoardVO라서 #{변수명} -->
+		INSERT INTO mvc_board
+		(board_no, title, content, writer)
+		VALUES(board_seq.NEXTVAL,#{title},#{content},#{writer})
+	</insert>
+
+	<select id="getArticleList" resultMap="BoardMap">
+		<!-- resultMap은 안쓴건 변수명과 컬럼명이 다른걸 매칭시키지 않았다는거 -->
+		SELECT * FROM mvc_board
+		ORDER BY board_no DESC
+	</select>
+
+	<select id="getArticle" resultMap="BoardMap">
+		<!-- resultMap="BoardMap"는 BoardMap을 참고해라 -->
+		SELECT * FROM mvc_board
+		WHERE board_no=#{boardNo}
+	</select>
+
+	<update id="update">
+		UPDATE mvc_board
+		SET title=#{title},
+		content=#{content}
+		WHERE board_no=#{boardNo}
+	</update>
+
+	<delete id="delete">
+		DELETE FROM mvc_board
+		WHERE Board_no=#{boardNo}
+	</delete>
+
+</mapper>
