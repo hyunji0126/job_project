@@ -30,6 +30,7 @@ public class BoardMapperTest {
 			mapper.insert(article);
 		}
 	}
+	/*
 	//게시글 목록 전체 조회 테스트
 	//게시물 개수 몇개인지 출력하시고, 게시글 모든 내용을 toString()으로 출력하세요.
 	@Test
@@ -39,6 +40,7 @@ public class BoardMapperTest {
 			System.out.println(vo);
 		}
 	}
+	 */
 
 	//게시글 단일 조회 테스트
 	//44번글을 조회해서 글 상세 내용을 출력해 주세요.

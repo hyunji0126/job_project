@@ -1,10 +1,14 @@
 package com.spring.mvc.board.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.mvc.board.commons.PageVo;
+import com.spring.mvc.board.commons.SearchVO;
 import com.spring.mvc.board.model.BoardVO;
 import com.spring.mvc.board.repository.IBoardMapper;
 
@@ -20,8 +24,16 @@ public class BoardService implements IBoardService {
 	}
 
 	@Override
-	public List<BoardVO> getArticleList() {
-		return mapper.getArticleList();
+	public List<BoardVO> getArticleList(SearchVO search) {
+
+		//	mapper에게 전달할 Map데이터를 생성
+//		Map<String, Object> datas = new HashMap<>();
+//		datas.put("paging", paging);
+//		datas.put("keyword", keyword);
+//		datas.put("condition", condition);
+//
+//		return mapper.getArticleList(datas);
+		return mapper.getArticleList(search);
 	}
 
 	@Override
@@ -38,5 +50,12 @@ public class BoardService implements IBoardService {
 	public void delete(int boardNo) {
 		mapper.delete(boardNo);
 	}
+
+	@Override
+	public int countArticles(SearchVO search) {
+//		return mapper.countArticles( keyword,  content);
+		return mapper.countArticles(search);
+	}
+
 
 }
