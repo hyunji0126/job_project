@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> <!-- mybatis mapper 연결때매 넣은것 -->
+
+<mapper namespace="com.spring.mvc.user.repository.IUserMapper"> <!-- 인터페이스 어딜 바라보고있는지 보여줌 -->
+
+	<resultMap type="com.spring.mvc.user.model.UserVO"
+		id="UserMap">
+		<result property="regDate" column="reg_date" />
+	</resultMap>
+
+
+	<insert id="register">
+		INSERT INTO mvc_user
+		(account,password,name)
+		VALUES(#{account}, #{password},#{name})
+	</insert>
+
+	<select id="checkId" resultType="int">
+		SELECT COUNT(*)
+		FROM mvc_user
+		WHERE account = #{account}
+	</select>
+
+	<select id="selectOne" resultMap="UserMap">
+		SELECT * FROM mvc_user
+		WHERE
+		account=#{account}
+	</select>
+
+	<delete id="delete">
+		DELETE FROM mvc_user
+		WHERE account = #{account}
+
+	</delete>
+
+
+</mapper>    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

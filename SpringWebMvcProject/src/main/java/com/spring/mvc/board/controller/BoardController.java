@@ -118,7 +118,7 @@ public class BoardController {
 	//	@GetMapping("/content")
 	@GetMapping("/content/{boardNo}") //${}안에는 아무말이나 써도됨 지목하기 위해서 이름을 달음, list.jsp에서 ?boardNo= 를 생략해서
 	public String content(@PathVariable int boardNo, Model model, 
-						  @ModelAttribute("p") PageVo paging ) {
+						  @ModelAttribute("p") SearchVO paging ) {
 		//@RequestParam("boardNo") int boardNo --> boardNo 변수명이 동일하므로 @RequestParam("boardNo") 파라미터 변수명은 생략가능
 		//@PathVariable("boardNo") 붙인건 /content/${boardNo}이 값을 뜯어오기위해 붙인 어노테이션 @RequestParam처럼 변수명이 동일하면 ()괄호안의 값 생략가능
 		System.out.println("/board/content: GET");

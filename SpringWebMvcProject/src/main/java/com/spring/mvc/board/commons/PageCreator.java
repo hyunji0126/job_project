@@ -1,5 +1,10 @@
 package com.spring.mvc.board.commons;
 
+import javax.print.ServiceUI;
+
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,6 +22,17 @@ public class PageCreator {
 	private boolean prev; // 이전 버튼
 	private boolean next; // 다음 버튼
 
+	//	URI 파라미터를 쉽게 만들어 주는 유틸 메서드
+	public String makeURI(int page) {
+		UriComponents ucp = UriComponentsBuilder.newInstance().queryParam("page", page)
+												.queryParam("countPerPage", paging.getCountPerPage())
+												.queryParam("keyword", ((SearchVO) paging).getKeyword()) //pagevo가 부모타입이라서 자식인 searchvo로 가져오려면 캐스팅으로 타입내려주기
+												.queryParam("condition", ((SearchVO) paging).getCondition())
+												.build();
+		
+		return ucp.toUriString();
+	}
+	
 	// 한 화면에 보여질 페이지 버튼 수
 	private final int displayPageNum = 10;
 

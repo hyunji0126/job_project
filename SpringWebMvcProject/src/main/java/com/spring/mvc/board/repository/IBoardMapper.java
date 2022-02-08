@@ -8,9 +8,9 @@ import com.spring.mvc.board.commons.PageVo;
 import com.spring.mvc.board.commons.SearchVO;
 import com.spring.mvc.board.model.BoardVO;
 
-// 게시관 고나련 CRUD 추상 메서드 선언.(Create Regist Update Delete)
+// 게시관 관련 CRUD 추상 메서드 선언.(Create Read Update Delete)
 public interface IBoardMapper {
-	// 게시름 등록 가능a
+	// 게시글 등록 기능
 	void insert(BoardVO article);
 
 	// 게시글 전체 조회 기능

@@ -22,6 +22,6 @@ public class BoardVO {
 	private Timestamp regDate;
 	private int viewCnt;
 
-	
-	
+	//newmark부착 여부 논리 타입 필드
+	private boolean newMark;
 }

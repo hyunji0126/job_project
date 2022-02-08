@@ -61,15 +61,22 @@ header.masthead {
 						<tr style="color: #643691;">
 							<td>${b.boardNo}</td>
 							<td>${b.writer}</td>
-
 							<td><a style="margin-top: 0; height: 40px; color: orange;"
-								href="<c:url value='/board/content/${b.boardNo}?page=${pc.paging.page}&countPerPage=${pc.paging.countPerPage}' />">
-									<!--<c:url value="/board/content?boardNo=${b.boardNo}" />"
-								?boardNo= 생략 -> 404에러남 -> requestparam 방식으로는 값을 받아올수 없음 
-								BoardController가서 GetMapping 수정하기--> ${b.title}
+								href="<c:url value='/board/content/${b.boardNo}${pc.makeURI(pc.paging.page)}' />">
+									<!-- 
+									href="<c:url value='/board/content/${b.boardNo}?page=${pc.paging.page}&countPerPage=${pc.paging.countPerPage}' />">
+								 --> <!--
+										<c:url value="/board/content?boardNo=${b.boardNo}" />"
+										?boardNo= 생략 -> 404에러남 -> requestparam 방식으로는 값을 받아올수 없음 
+										BoardController가서 GetMapping 수정하기
+									--> ${b.title}
+									&nbsp;
+									<c:if test="${b.newMark}"><img src="/img/icon_new.gif"></c:if>
 							</a></td>
 
-							<td>${b.regDate}</td>
+							<!--   <td>${b.regDate}</td>-->
+							
+							<td><fmt:formatDate value="${b.regDate}" pattern="yyyy-MM-dd HH:mm"/></td>
 							<td>${b.viewCnt}</td>
 						</tr>
 					</c:forEach>
@@ -82,26 +89,31 @@ header.masthead {
 					<c:if test="${pc.prev}">
 						<!-- ==true를 쓸필요 없다. 이미 나오기에  -->
 						<li class="page-item"><a class="page-link"
-							href="<c:url value='/board/list?page=${pc.beginPage-1}&countPerPage=${pc.paging.countPerPage }'/>"
+							href="<c:url value='/board/list${pc.makeURI(pc.beginPage-1)}' />"
 							style="background-color: #643691; margin-top: 0; height: 40px; color: white; border: 0px solid #f78f24; opacity: 0.8">이전</a>
-						</li>
+							<!-- 
+							href="<c:url value='/board/list?page=${pc.beginPage-1}&countPerPage=${pc.paging.countPerPage }'/>"
+						 --></li>
 					</c:if>
 
 					<!-- 페이지 번호 버튼 -->
 					<c:forEach var="pageNum" begin="${pc.beginPage}"
 						end="${pc.endPage}">
 						<li class="page-item"><a
-							href="<c:url value='/board/list?page=${pageNum}&countPerPage=${pc.paging.countPerPage}'/>"
+							href="<c:url value='/board/list${pc.makeURI(pageNum)}'/>"
 							class="page-link ${pc.paging.page == pageNum ? 'page-active' : '' }"
 							style="margin-top: 0; height: 40px; color: pink; border: 1px solid #643691;">${pageNum}</a>
+							<!-- href="<c:url value='/board/list?page=${pageNum}&countPerPage=${pc.paging.countPerPage}'/>" -->
 						</li>
 					</c:forEach>
 
 					<!-- 다음버튼 -->
 					<c:if test="${pc.next }">
 						<li class="page-item"><a class="page-link"
-							href="<c:url value='/board/list?page=${pc.endPage+1}&countPerPage=${pc.paging.countPerPage}'/>"
+							href="<c:url value='/board/list${pc.makeURI(pc.endPage+1)}'/>"
 							style="background-color: #643691; margin-top: 0; height: 40px; color: white; border: 0px solid #f78f24; opacity: 0.8">다음</a>
+							<!-- 
+							href="<c:url value='/board/list?page=${pc.endPage+1}&countPerPage=${pc.paging.countPerPage}'/>" -->
 						</li>
 					</c:if>
 				</ul>
@@ -114,17 +126,22 @@ header.masthead {
 		<div class="col-sm-2"></div>
 		<div class="form-group col-sm-2">
 			<select id="condition" class="form-control" name="condition">
-				<option value="title" ${param.condition == 'title' ? 'selected' : '' }>제목</option>
-				<option value="content" ${param.condition == 'content' ? 'selected' : '' }>내용</option>
-				<option value="writer" ${param.condition == 'writer' ? 'selected' : '' }>작성자</option>
-				<option value="titleContent" ${param.condition == 'titleContent' ? 'selected' : '' }>제목+내용</option>
+				<option value="title"
+					${param.condition == 'title' ? 'selected' : '' }>제목</option>
+				<option value="content"
+					${param.condition == 'content' ? 'selected' : '' }>내용</option>
+				<option value="writer"
+					${param.condition == 'writer' ? 'selected' : '' }>작성자</option>
+				<option value="titleContent"
+					${param.condition == 'titleContent' ? 'selected' : '' }>제목+내용</option>
 			</select>
 		</div>
 		<div class="form-group col-sm-4">
 			<div class="input-group">
-				<input type="text" class="form-control" name="keyword" id="keywordInput" placeholder="검색어" value="${param.keyword}"> 
-				<span class="input-group-btn"> 
-					<input type="button" value="검색" class="btn btn-cpp btn-flat" id="searchBtn">
+				<input type="text" class="form-control" name="keyword"
+					id="keywordInput" placeholder="검색어" value="${param.keyword}">
+				<span class="input-group-btn"> <input type="button"
+					value="검색" class="btn btn-cpp btn-flat" id="searchBtn">
 				</span>
 			</div>
 		</div>

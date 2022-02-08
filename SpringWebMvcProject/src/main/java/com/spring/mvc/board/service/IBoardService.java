@@ -30,7 +30,7 @@ public interface IBoardService {
 	 */
 
 	//	여러개의 파라미터들을 Map으로 포장해서 보내는 방식
-	//	<key,value> key : xml파일에서 사용할 이름, value : 값(Object타입)
+	//	<key, value> : key : xml파일에서 사용할 이름, value : 값 (Object(모든 클래스의 부모) 타입)
 	//	List<BoardVO> getArticleList(Map<String, Object> datas);
 	List<BoardVO> getArticleList(SearchVO search);
 
