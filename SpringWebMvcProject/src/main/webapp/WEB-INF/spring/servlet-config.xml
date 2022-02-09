@@ -2,10 +2,11 @@
 <beans:beans xmlns="http://www.springframework.org/schema/mvc"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
-	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:context="http://www.springframework.org/schema/context" 
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+	<!-- context 포함 주은 @(어노테이션) 추가 소스 -->
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
@@ -28,7 +29,20 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	<!-- component-scan 컴포넌트 스캔 소스 -->
 	<context:component-scan base-package="com.spring.mvc" />
+	
+	<!-- 인터셉터 빈 등록 방식 -->
+	<interceptors>
+	 <interceptor>
+	 	<!-- <mapping path="/board/**"/> --> 
+	 	<mapping path="/board/write"/>
+	 	<mapping path="/board/content/**/"/>
+	 	<beans:bean class="com.spring.mvc.board.commons.interceptor.BoardInterceptor" />
+	 </interceptor>
+	</interceptors>
+	 <!-- 인터셉터태그안에 빈등록까지 완료함 beans에는 주소값 -->
+	
 	
 	
 	
