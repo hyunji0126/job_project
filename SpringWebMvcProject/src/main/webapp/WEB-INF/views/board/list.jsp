@@ -146,8 +146,7 @@ header.masthead {
 			</div>
 		</div>
 		<div class="col-sm-2">
-			<a href="<c:url value='/board/write' />"
-				class="btn btn-cpp float-right">글쓰기</a>
+			<a href="<c:url value='/board/write' />" class="btn btn-cpp float-right">글쓰기</a>
 		</div>
 		<div class="col-sm-2"></div>
 	</div>
@@ -167,7 +166,7 @@ header.masthead {
 		// 한 페이지당 보여줄 게시물 개수가 변동하는 이벤트 처리
 		$('#count-per-page .btn-cpp').click(function() {
 			const count = $(this).val();
-			location.href = '/board/list?page=1&countPerPage' + count;
+			location.href = '/board/list?page=1&countPerPage=' + count;
 		});
 
 		// 검색 버튼 이벤트 처리

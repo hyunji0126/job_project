@@ -43,11 +43,13 @@ header.masthead {
 						
 						<input id="list-btn" class="btn" type="button" value=목록
 							style="background-color: #643691; margin-top: 0; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8">&nbsp;&nbsp;
-						<input id="mod-btn" class="btn" type="button" value="수정"
-							style="background-color: orange; margin-top: 0; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8">&nbsp;&nbsp;
-						<input class="btn" type="submit" value="삭제"
-							onclick="return confirm('정말로 삭제하시겠습니까?')"
-							style="background-color: red; margin-top: 0; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8">&nbsp;&nbsp;
+							
+						<c:if test="${login.name == article.writer}"> <!-- 작성자와 로긘사람이 동일하면 글보기에서 수정 삭제버튼이 보이고 아니면 보이지마라 if문 사용 -->
+							<input id="mod-btn" class="btn" type="button" value="수정"
+								style="background-color: orange; margin-top: 0; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8">&nbsp;&nbsp;
+							<input class="btn" type="submit" value="삭제" onclick="return confirm('정말로 삭제하시겠습니까?')"
+								style="background-color: red; margin-top: 0; height: 40px; color: white; border: 0px solid #388E3C; opacity: 0.8">&nbsp;&nbsp;
+						</c:if>
 
 					</form>
 

@@ -50,6 +50,13 @@
 							style="ime-mode: inactive; margin-bottom: 25px; height: 40px; border: 1px solid #d9d9de"
 							placeholder="최소 8자"></td>
 					</tr>
+					
+					<!-- 자동 로긘 체크박스 -->
+					<tr>
+						<td><input type="checkbox" id="auto-login" name="autoLogin">자동 로그인</td>
+					</tr>
+					
+					
 					<tr>
 						<td style="padding-top: 10px; text-align: center">
 							<p>
@@ -65,13 +72,9 @@
 						</td>
 					</tr>
 					<tr>
-						<td
-							style="width: 100%; text-align: center; colspan: 2; margin-top: 24px; padding-top: 12px; border-top: 1px solid #ececec">
-
-							<a class="btn form-control tooltipstered" data-toggle="modal"
-							href="#sign-up"
-							style="cursor: pointer; margin-top: 0; height: 40px; color: white; background-color: orange; border: 0px solid #388E3C; opacity: 0.8">
-								회원가입</a>
+						<td style="width: 100%; text-align: center; colspan: 2; margin-top: 24px; padding-top: 12px; border-top: 1px solid #ececec">
+							<a class="btn form-control tooltipstered" data-toggle="modal" href="#sign-up"
+							style="cursor: pointer; margin-top: 0; height: 40px; color: white; background-color: orange; border: 0px solid #388E3C; opacity: 0.8"> 회원가입</a>
 						</td>
 					</tr>
 
@@ -441,9 +444,14 @@
 				// 입력된 비밀번호
 				const pw = $('#signInPw').val();
 				
+				// 자동 로그인 체크박스가 체크가 되었는지의 여부
+				// is() 함수는 상태 여부를 판단하여 논리값을 리턴합니다.
+				const autoLogin = $('#auto-login').is(':checked');
+				
 				const userInfo = {
 						"account" : id,
-						"password" : pw
+						"password" : pw,
+						"autoLogin" : autoLogin // 체크의 여부를 확인하여 자동로긘을 구현할지 말지 정합니다.
 				};
 				
 				// 비동기 통신 시작!

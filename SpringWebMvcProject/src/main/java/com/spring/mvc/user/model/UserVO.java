@@ -23,5 +23,12 @@ public class UserVO {
 	private String password;
 	private String name;
 	private Timestamp regDate;
+	private String sessionId;
+	private Timestamp limitTime;
+	
+	// 자동 로긘 체크 여부
+	private boolean autoLogin; //db에없는
+	
+	
 	
 }

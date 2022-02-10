@@ -7,6 +7,8 @@
 	<resultMap type="com.spring.mvc.user.model.UserVO"
 		id="UserMap">
 		<result property="regDate" column="reg_date" />
+		<result property="sessionId" column="session_id" />
+		<result property="limitTime" column="limit_time" />
 	</resultMap>
 
 
@@ -33,8 +35,20 @@
 		WHERE account = #{account}
 
 	</delete>
+	
+	<!-- 자동로긘을 체크하는 경우 쿠키값(세션 아이디)과 유효시간을 갱신 -->
+	<update id="keepLogin">
+		UPDATE mvc_user
+		SET session_id = #{sessionId},
+		limit_time = #{limitDate}
+		WHERE account = #{account}
+	</update>
 
-
+	<!-- 자동 로긘을 신청했던 회원이 다시 사이트에 방문 시 로컬에 저장된 쿠키값(세션ID)과 일치하는 회원의 모든 정보를 조회하는 SQL문 -->
+	<select id="getUserWithSessionId" resultMap="UserMap">
+		SELECT * FROM mvc_user
+		WHERE session_id = #{sessionId}
+	</select>
 </mapper>    
     
     

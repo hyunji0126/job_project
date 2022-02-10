@@ -159,4 +159,13 @@
   
 <%@ include file="../users/login_modal.jsp" %>  
   
+<script>
+	
+	const msg = '${msg}';
+	
+	if(msg === 'logout') {
+		alert('로그아웃 처리 ok');
+	}
 
+	
+</script>
