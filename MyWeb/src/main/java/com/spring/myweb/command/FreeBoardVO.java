@@ -6,10 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-/* 
- 테이블 생성
- 
-CREATE TABLE freeboard(
+/*
+ CREATE TABLE freeboard(
     bno NUMBER(10, 0),
     title VARCHAR2(300) NOT NULL,
     writer VARCHAR2(50) NOT NULL,
@@ -29,11 +27,11 @@ CREATE SEQUENCE freeboard_seq
     NOCACHE;
  */
 
-@ToString
-@Setter
 @Getter
+@Setter
+@ToString
 public class FreeBoardVO {
-
+	
 	private int bno;
 	private String title;
 	private String writer;
@@ -41,10 +39,25 @@ public class FreeBoardVO {
 	private Timestamp regdate;
 	private Timestamp updatedate;
 	private boolean newMark;
-	
-	
-	
-	
-	
-	
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

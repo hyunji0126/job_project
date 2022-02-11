@@ -79,7 +79,7 @@ public class UserController {
 				// 자동 로긘 체크시 처리해야 할 내용
 				if(vo.isAutoLogin()) {
 					// 자동 로긘을 희망하는 경우
-					// 쿠키를 이용하여자동 로긘 정보를 저장
+					// 쿠키를 이용하여 자동 로긘 정보를 저장
 					System.out.println("자동 로긘 쿠키 굽는중");
 					// 세션 아이디를 가지고 와서 쿠키에 저장(고유한 값이 필요해서)
 					Cookie loginCookie = new Cookie("loginCookie", session.getId());
