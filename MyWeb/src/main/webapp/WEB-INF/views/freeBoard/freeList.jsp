@@ -12,18 +12,19 @@
 				<div class="titlebox">자유게시판</div>
 				<hr>
 
-				<form action="#">
+				<form action="<c:url value='/freeBoard/freeList' />">
 					<div class="search-wrap clearfix">
-						<button type="submit" class="btn btn-info search-btn">검색</button>
-						<input type="text" class="form-control search-input"> <select
-							class="form-control search-select">
-							<option>제목</option>
-							<option>내용</option>
-							<option>작성자</option>
-							<option>제목+내용</option>
+						<button type="submit" class="btn btn-info search-btn" id="searchBtn">검색</button>
+						<input type="text" class="form-control search-input" name="keyword" value="${pc.paging.keyword}"> 
+						<select class="form-control search-select" name="condition">
+							<option value="title" ${pc.paging.condition == 'title' ? 'selected' : '' }>제목</option>
+							<option value="content" ${pc.paging.condition == 'content' ? 'selected' : '' }>내용</option>
+							<option value="writer" ${pc.paging.condition == 'writer' ? 'selected' : '' }>작성자</option>
+							<option value="titleContent" ${pc.paging.condition == 'titleContent' ? 'selected' : '' }>제목+내용</option>
 						</select>
 					</div>
 				</form>
+				
 				<table class="table table-bordered table-hover">
 					<thead>
 						<tr>
@@ -79,7 +80,7 @@
 							name="keyword" value="${pc.paging.keyword}"> <input
 							type="hidden" name="condition" value="${pc.paging.condition}">
 
-						<button class="btn btn-info">글쓰기</button>
+						<button type="button" class="btn btn-info" onclick="location.href='<c:url value="/freeBoard/freeRegist"/>'">글쓰기</button>
 					</div>
 				</form>
 			</div>
@@ -91,7 +92,12 @@
 <%@ include file="../include/footer.jsp"%>
 
 <script>
-
+	
+	const msg = '${msg}';
+	if(msg !== ''){
+		alert(msg);
+	}
+	
 	//사용자가 페이지 관련 버튼을 클릭했을 때, 기존에는 각각의 a태그의 href에 
 	//각각 다른 url을 작성해서 요청을 보내줬다면, 이번에는 클릭한 그 버튼에 맞는 페이지 정보를
 	//자바스크립트를 이용하여 끌고 와서 요청을 보내 주겠습니다.
@@ -127,6 +133,22 @@
       });
       
    });
+	
+	
+	
+	//검색
+	$('#searchBtn').click(
+		function() {
+			location.href = "/freeBoard/freeList?keyword=" + keyword + "&condition=" + condition;
+		}
+	);
+	
+	
+	$('#searchBtn').keydown(function(key) {
+		if(key.keycode === 13){
+			$('#searchBtn').click();
+		}
+	});
 </script>
 
 

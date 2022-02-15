@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.myweb.user.mapper.IUserMapper">
+
+	<insert id="replyRegist">
+		INSERT INTO freereply(rno, bno, reply, reply_id,
+		reply_pw)
+		VALUES(freereply_seq.NEXTVAL, #{bno}, #{reply}, #{replyId},
+		#{replyPw})
+	</insert>
+
+	<select id="getList" resultMap="replyMap">
+		SELECT * FROM
+		(
+		SELECT ROWNUM AS rn, tbl.* FROM
+		(
+		SELECT * FROM freereply
+		WHERE bno = #{bno}
+		ORDER BY rno DESC
+		) tbl
+		)
+		<![CDATA[
+		WHERE rn > (#{paging.pageNum} - 1) * #{paging.countPerPage}
+		AND rn <= #{paging.pageNum} * #{paging.countPerPage}
+		]]>
+	</select>
+
+	<select id="getTotal" resultType="int">
+		<!-- id는 메소드명 -->
+		SELECT COUNT(*)
+		FROM freereply
+		WHERE bno =#{bno}
+	</select>
+
+	<select id="pwCheck" resultType="int">
+		SELECT COUNT(*) FROM freereply
+		WHERE rno = #{rno} AND reply_pw=
+		#{replyPw} <!-- 비번이 일치할수있어서 댓글번호도 where에 넣은것임 -->
+	</select>
+
+	<update id="update">
+		UPDATE freereply
+		SET reply=#{reply}, update_date = sysdate
+		WHERE rno=#{rno}
+	</update>
+
+	<delete id="delete">
+		DELETE FROM freereply
+		WHERE rno=#{rno}
+	</delete>
+</mapper>
