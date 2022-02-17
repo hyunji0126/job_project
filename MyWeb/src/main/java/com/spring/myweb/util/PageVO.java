@@ -15,6 +15,7 @@ public class PageVO {
 	private String keyword;
 	private String condition;
 	
+	//초기설정
 	public PageVO() {
 		this.pageNum = 1;
 		this.countPerPage = 20;

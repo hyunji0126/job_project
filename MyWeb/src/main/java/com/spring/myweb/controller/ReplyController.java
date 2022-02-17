@@ -38,14 +38,10 @@ public class ReplyController {
 	@GetMapping("/getList/{bno}/{pageNum}")
 	public Map<String, Object> getList(@PathVariable int bno, @PathVariable int pageNum ) {
 		//	1. getList 메서드가 (글번호, 페이지번호)를 매개값으로 받습니다.
-		
 		//	2. Mapper 인터페이스에 각각 다른 값을 전달하기 위해 Map을 쓰던지, @Param을 사용
-		
 		//	3. replyMapper.xml sql문을 페이징 쿼리로 작성합니다.
-		
 		//	4. 레스트 방식은 화면에 필요한 값을 여러개 보낼 떄, 리턴에 Map이나 VO형식으로 필요한 데이터를 한번에 담아서 처리
 		//	ㄴ>더보기눌러서 목록더보기식이면 페이지 크리에이터는 필요없음
-		
 		//	댓글 목록 리스트와 전체 대슥르 개수를 함꼐 전달할 예정 => Map으로 포장해서 데이터로 전달할 예정
 		
 //		System.out.println("받니");
