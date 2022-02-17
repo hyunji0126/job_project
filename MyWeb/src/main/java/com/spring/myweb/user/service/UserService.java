@@ -28,13 +28,13 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public UserVO getinfo(String id) {
-		return null;
+	public UserVO getInfo(String id) {
+		return mapper.getInfo(id);
 	}
 
 	@Override
 	public void updateUser(UserVO vo) {
-
+		mapper.updateUser(vo);
 	}
 
 	@Override

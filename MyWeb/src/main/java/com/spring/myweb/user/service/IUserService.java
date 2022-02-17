@@ -14,7 +14,7 @@ public interface IUserService {
 	UserVO login(String id, String pw); //@param은 마이바티스에서 사용 서비스에서는 사용 x
 
 	// 회원 정보 얻어오기 -- 마이페이지에 들어가 회원정보 얻어오기
-	UserVO getinfo(String id);
+	UserVO getInfo(String id);
 
 	// 회원 정보 수정
 	void updateUser(UserVO vo);

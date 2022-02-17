@@ -15,7 +15,7 @@ public interface IUserMapper {
 	UserVO login(@Param("id") String id, @Param("pw") String pw);
 	
 	// 회원 정보 얻어오기 -- 마이페이지에 들어가 회원정보 얻어오기
-	UserVO getinfo(String id);
+	UserVO getInfo(String id);
 	
 	// 회원 정보 수정
 	void updateUser(UserVO vo);

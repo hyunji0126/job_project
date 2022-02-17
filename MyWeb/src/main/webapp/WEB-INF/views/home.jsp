@@ -138,7 +138,12 @@
 
 	<%@ include file="include/footer.jsp" %>
 
-
+<script>
+const msg = '${msg}';
+if(msg !== ''){
+	alert(msg);
+}
+</script>
 
     
 

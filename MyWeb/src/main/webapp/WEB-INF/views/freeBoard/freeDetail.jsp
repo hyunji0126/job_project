@@ -33,7 +33,7 @@
 					</div>
 
 					<button type="button" class="btn btn-primary"
-						onclick="location.href='<c:url value="/freeBoard/freeModify?bno=${article.bno}" />' ">수정</button>
+						onclick="location.href='<c:url value="/freeBoard/freeModify?bno=${article.bno}&writer=${article.writer}" />' ">수정</button>
 					<button type="button" class="btn btn-dark"
 						onclick="location.href='<c:url value="/freeBoard/freeList" />' ">목록</button>
 				</form>
@@ -167,88 +167,88 @@
 		}); //댓글 등록 비동기 통신 끝.
 	}); //댓글 등록 이벤트 끝.
 
-						//더보기 버튼 처리(클릭 시 전역변수 페이지번호에 +1값을 전달)
-						$('#moreList').click(function() {
-							//더보기니까 누적해야한다.
-							//1페이지의 댓글 내용 밑에다가 2페이지를 줘야지
-							//1페이지를 없애고 2페이지를 보여주는 게 아니다.
-							getList(++page, false);
-						});
+	//더보기 버튼 처리(클릭 시 전역변수 페이지번호에 +1값을 전달)
+	$('#moreList').click(function() {
+		//더보기니까 누적해야한다.
+		//1페이지의 댓글 내용 밑에다가 2페이지를 줘야지
+		//1페이지를 없애고 2페이지를 보여주는 게 아니다.
+		getList(++page, false);
+	});
 
-						//목록 요청
-						let page = 1; //페이지 번호
-						let strAdd = ''; //화면에 그려넣을 태그를 문자열의 형태로 추가할 변수.
+	//목록 요청
+	let page = 1; //페이지 번호
+	let strAdd = ''; //화면에 그려넣을 태그를 문자열의 형태로 추가할 변수.
 
-						getList(1, true); //상세보기 화면에 처음 진입 시 댓글 리스트를 불러옴.
+	getList(1, true); //상세보기 화면에 처음 진입 시 댓글 리스트를 불러옴.
 
-						//getList 매개값으로 요청된 페이지 번호와
-						//화면을 리셋할 것인지의 여부를 bool타입의 reset이름의 변수로 받는다.
-						//(페이지가 그대로 머물면서 댓글이 밑에 계속 쌓이기 때문에, 상황에 따라서
-						//페이지를 리셋해서 새롭게 가져올 것인지, 누적해서 쌓을 것인지의 여부를 확인)
-						function getList(pageNum, reset) {
+	//getList 매개값으로 요청된 페이지 번호와
+	//화면을 리셋할 것인지의 여부를 bool타입의 reset이름의 변수로 받는다.
+	//(페이지가 그대로 머물면서 댓글이 밑에 계속 쌓이기 때문에, 상황에 따라서
+	//페이지를 리셋해서 새롭게 가져올 것인지, 누적해서 쌓을 것인지의 여부를 확인)
+	function getList(pageNum, reset) {
 
-							const bno = '${article.bno}'; //게시글 번호
+		const bno = '${article.bno}'; //게시글 번호
 
-							//getJSON 함수를 통해 JSON 형식의 파일을 읽어올 수 있다.
-							//get방식의 요청을 통해 서버로부터 받은 JSON 데이터를 로드한다.
-							//$.getJSON(url, [DATA], [통신 성공 여부])
-							$.getJSON(
-								"<c:url value='/reply/getList/' />"+ bno + '/' + pageNum,
-								function(data) {
-									console.log(data);
-	
-									let total = data.total; //총 댓글수
-									console.log('총 댓글수: ' + total);
-									let replyList = data.list; //댓글 리스트
-	
-									//insert, update, delete 작업 후에는
-									//댓글을 누적하고 있는 strAdd 변수를 초기화를 해서
-									//화면이 리셋된 것처럼 보여줘야 한다.
-									if (reset === true) {
-										strAdd = '';
-										page = 1;
-									}
-	
-									//페이지번호 * 데이터수보다 전체 댓글 갯수가 작으면 더보기 버튼을 없애자.
-									console.log('현재 페이지: ' + page);
-									if (total <= page * 5) {
-										$('#moreList').css(
-												'display', 'none');
-									} else {
-										$('#moreList').css(
-												'display', 'block');
-									}
-	
-									//응답 데이터의 길이가 0보다 작으면 함수를 종료하자.
-									if (replyList.length <= 0) {
-										return; //함수 종료.
-									}
-	
-									for (let i = 0; i < replyList.length; i++) {
-	
-										strAdd += "<div class='reply-wrap' style='display:none;'>";
-										strAdd += "<div class='reply-image'>";
-										strAdd += "<img src='../resources/img/profile.png'>";
-										strAdd += "</div>";
-										strAdd += "<div class='reply-content'>";
-										strAdd += "<div class='reply-group'>";
-										strAdd += "<strong class='left'>"+ replyList[i].replyId+ "</strong>";
-										strAdd += "<small class='left'>" + timeStamp(replyList[i].replyDate) + "</small>";
-										strAdd += "<a href='" + replyList[i].rno + "' class='right replyModify'><span class='glyphicon glyphicon-pencil'></span>수정</a>";
-										strAdd += "<a href='" + replyList[i].rno + "' class='right replyDelete'><span class='glyphicon glyphicon-remove'></span>삭제</a>";
-										strAdd += "</div>";
-										strAdd += "<p class='clearfix'>" + replyList[i].reply + "</p>";
-										strAdd += "</div>";
-										strAdd += "</div>";
-									}
-									$('#replyList').html(strAdd); //replyList영역에 문자열 형식으로 모든 댓글을 추가.
-									//화면에 댓글을 표현할 때 reply-wrap이 display: none으로 선언되어 있는데,
-									//jQuery의 fadeIn 함수로 서서히 드러나도록 처리.
-									$('.reply-wrap').fadeIn(500);
-	
-								}); //end getJSON
+		//getJSON 함수를 통해 JSON 형식의 파일을 읽어올 수 있다.
+		//get방식의 요청을 통해 서버로부터 받은 JSON 데이터를 로드한다.
+		//$.getJSON(url, [DATA], [통신 성공 여부])
+		$.getJSON(
+			"<c:url value='/reply/getList/' />"+ bno + '/' + pageNum,
+			function(data) {
+				console.log(data);
 
-						} //end getList()
+				let total = data.total; //총 댓글수
+				console.log('총 댓글수: ' + total);
+				let replyList = data.list; //댓글 리스트
+
+				//insert, update, delete 작업 후에는
+				//댓글을 누적하고 있는 strAdd 변수를 초기화를 해서
+				//화면이 리셋된 것처럼 보여줘야 한다.
+				if (reset === true) {
+					strAdd = '';
+					page = 1;
+				}
+
+				//페이지번호 * 데이터수보다 전체 댓글 갯수가 작으면 더보기 버튼을 없애자.
+				console.log('현재 페이지: ' + page);
+				if (total <= page * 5) {
+					$('#moreList').css(
+							'display', 'none');
+				} else {
+					$('#moreList').css(
+							'display', 'block');
+				}
+
+				//응답 데이터의 길이가 0보다 작으면 함수를 종료하자.
+				if (replyList.length <= 0) {
+					return; //함수 종료.
+				}
+
+				for (let i = 0; i < replyList.length; i++) {
+
+					strAdd += "<div class='reply-wrap' style='display:none;'>";
+					strAdd += "<div class='reply-image'>";
+					strAdd += "<img src='../resources/img/profile.png'>";
+					strAdd += "</div>";
+					strAdd += "<div class='reply-content'>";
+					strAdd += "<div class='reply-group'>";
+					strAdd += "<strong class='left'>"+ replyList[i].replyId+ "</strong>";
+					strAdd += "<small class='left'>" + timeStamp(replyList[i].replyDate) + "</small>";
+					strAdd += "<a href='" + replyList[i].rno + "' class='right replyModify'><span class='glyphicon glyphicon-pencil'></span>수정</a>";
+					strAdd += "<a href='" + replyList[i].rno + "' class='right replyDelete'><span class='glyphicon glyphicon-remove'></span>삭제</a>";
+					strAdd += "</div>";
+					strAdd += "<p class='clearfix'>" + replyList[i].reply + "</p>";
+					strAdd += "</div>";
+					strAdd += "</div>";
+				}
+				$('#replyList').html(strAdd); //replyList영역에 문자열 형식으로 모든 댓글을 추가.
+				//화면에 댓글을 표현할 때 reply-wrap이 display: none으로 선언되어 있는데,
+				//jQuery의 fadeIn 함수로 서서히 드러나도록 처리.
+				$('.reply-wrap').fadeIn(500);
+
+			}); //end getJSON
+
+	} //end getList()
 
 			//수정, 삭제
 			/*

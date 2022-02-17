@@ -18,20 +18,24 @@
 						</div>
 						<span id="msgId">*필수 사항입니다.</span> <!--아이디 중복 여부 메세지 공간-->
 					</div>
+					
 					<div class="form-group">
 						<label for="password">비밀번호</label> 
 						<input type="password" name="userPw"  class="form-control" id="userPw" placeholder="비밀번호 (영 대/소문자, 숫자조합 8~16자)">
 						<span id="msgPw"></span> <!-- 비밀번호 유효성 메세지 공간-->
 					</div>
+					
 					<div class="form-group">
 						<label for="password-confirm">비밀번호 확인</label> 
 						<input type="password" class="form-control" id="pw-Confirm" placeholder="비밀번호를 확인해 주세요."> 
 						<span id="msgPw-c"></span> <!-- 비밀번호 확인 유효성 메세지 공간-->
 					</div>
+					
 					<div class="form-group">
 						<label for="name">이름</label> 
 						<input type="text" name="userName"  class="form-control" id="name" placeholder="이름을 입력하세요.">
 					</div><!-- vo 객체명이랑 name이랑 같아야함 그래야 인식 -->
+					
 					<div class="form-group">
 						<label for="hp">전화번호</label>
 						<div class="input-group">
@@ -42,21 +46,29 @@
 								<option>018</option>
 							</select>
 							<input type="text" name="userPhone2" class="form-control" id="hp" placeholder="전화번호를 입력하세요.">
-							<div class="input-group-addon">
-								<button class="btn btn-primary">본인인증</button>
-							</div>
 						</div>
 					</div>
+					
 					<div class="form-group email-form">
-						<label for="email">이메일</label><br> 
-						<input type="text" class="form-control" name="userEmail1" id="userEmail1" placeholder="이메일"> 
+						<label for="email">이메일</label>
+						<div class="input-group">
+							<input type="text" class="form-control" name="userEmail1" id="userEmail1" placeholder="이메일"> 
 							<select class="form-control" name="userEmail2" id="userEmail2">
 								<option>@naver.com</option>
 								<option>@daum.net</option>
 								<option>@gmail.com</option>
 								<option>@hanmail.com</option>
 							</select>
+							<div class="input-group-addon">
+								<button type="button" class="btn btn-primary" id="mail-check-btn">본인인증</button>
+							</div>	
+						</div>
+						<div class="mail-check-box">
+							<input class="form-control mail-check-input" placeholder="인증번호 6자리를 입력하세요." disabled="disabled" maxlength="6">
+						</div>						
+						<span id="mail-check-warn"></span>
 					</div>
+					
 					<div class="form-group">
 						<label for="addr-num">주소</label>
 						<div class="input-group">
@@ -66,6 +78,7 @@
 							</div>
 						</div>
 					</div>
+					
 					<div class="form-group">
 						<input type="text" name="addrBasic" id="addrBasic" class="form-control" id="addr-basic" placeholder="기본주소">
 					</div>
@@ -90,6 +103,8 @@
 <%@include file="../include/footer.jsp"%>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+	let code = ''; // 이메일 전송 인증번호 저장을 위한 변수
+
 	// 아이디 중복 체크
 	$('#idCheckBtn').click(function() {
 		if($('#userId').val() === ''){
@@ -126,6 +141,50 @@
 		}); // ajax 중복 비동기 통신 끝
 	
 	}); // 중복 버튼 이벤트 처리 끝
+	
+	// 인증번호 이메일 전송
+	$('#mail-check-btn').click(function() {
+		const email = $('#userEmail1').val() + $('#userEmail2').val();
+		console.log('완성된 이메일' + email);
+		const checkInput = $('.mail-check-input'); // 인증번호 입력하는 곳
+		
+		$.ajax({
+			type : 'get',
+			url : '<c:url value="/user/mailCheck?email=" />' + email,
+			success : function(data) {
+				console.log('data : ' + data);
+				checkInput.attr('disabled', false);
+				code = data;
+				alert('인증번호가 전송되었습니다. 확인 후 입력란에 정확히 입력하세요!');
+			},
+			error : function() {
+				console.log('실팽')
+			}
+		}); // end ajax 이메일 전송
+	}); // 이메일 전송 끝
+	
+	// 인증번호 비교
+	// blur라는 트리거는 focusout이랑 같다 foucs가 벗어나는 경우 발생
+	//inputCode사용자가 입력한 코드
+	$('.mail-check-input').blur(function() {
+		const inputCode = $(this).val(); 
+		const $resultMsg = $('#mail-check-warn');
+		
+		if(inputCode === code){ //사용자가 입력한 인증번호와 전송된 인증번호가 동일하냐
+			$resultMsg.html('인증번호가 일치합니다.');
+			$resultMsg.css('color','green');
+			$('#mail-check-btn').attr('disabled',true);
+			$('#userEmail1').attr('readonly', true);
+			$('#userEmail2').attr('readonly', true);// 여기까지했을때 readonly처럼 보이지만 변경됨
+			$('#userEmail2').attr('onFocus', 'this.initialSelect = this.selectedIndex');
+			$('#userEmail2').attr('onChange', 'this.selectedIndex = this.initialSelect');
+			
+		} else {
+			$resultMsg.html('인증번호가 불일치합니다. 다시 확인해주세요.');
+			$resultMsg.css('color','red');
+		}
+	}); // .mail-check-input end
+	
 	
 	// 폼 데이터 검증(회원 가입 버튼을 눌렀을 시)
 	$('#joinBtn').click(function() {

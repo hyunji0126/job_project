@@ -7,6 +7,7 @@
 	<!-- namespaces 탭에서 mvc기능 추가 -->
 	<!-- web.xml에 초기 설정 파일로 이 파일을 추가 -->
 	<bean id="userLoginSuccessHandler" class="com.spring.myweb.util.interceptor.UserLoginSuccessHandler" />
+	<bean id="BoardAuthHandler" class="com.spring.myweb.util.interceptor.BoardAuthHandler" />
 	
 	<mvc:interceptors>
 	<!-- 로그인 이후에 실행되는 postHandler -->
@@ -14,6 +15,12 @@
 			<mvc:mapping path="/user/login"/>
 			<ref bean="userLoginSuccessHandler"/>
 		</mvc:interceptor>
-	
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/freeBoard/freeModify"/>
+			<mvc:mapping path="/freeBoard/freeUpdate"/>
+			<mvc:mapping path="/freeBoard/freeDelete"/>
+			<ref bean="BoardAuthHandler"/>
+		</mvc:interceptor>
 	</mvc:interceptors>
 </beans>
