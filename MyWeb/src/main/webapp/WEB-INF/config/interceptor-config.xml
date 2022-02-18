@@ -8,6 +8,7 @@
 	<!-- web.xml에 초기 설정 파일로 이 파일을 추가 -->
 	<bean id="userLoginSuccessHandler" class="com.spring.myweb.util.interceptor.UserLoginSuccessHandler" />
 	<bean id="BoardAuthHandler" class="com.spring.myweb.util.interceptor.BoardAuthHandler" />
+	<bean id="UserAuthHandler" class="com.spring.myweb.util.interceptor.UserAuthHandler" />
 	
 	<mvc:interceptors>
 	<!-- 로그인 이후에 실행되는 postHandler -->
@@ -17,10 +18,16 @@
 		</mvc:interceptor>
 		
 		<mvc:interceptor>
-			<mvc:mapping path="/freeBoard/freeModify"/>
-			<mvc:mapping path="/freeBoard/freeUpdate"/>
-			<mvc:mapping path="/freeBoard/freeDelete"/>
+			<mvc:mapping path="/freeBoard/freeModify"/> <!-- 수정페이지 이동 -->
+			<mvc:mapping path="/freeBoard/freeUpdate"/> <!-- 수정 요청 -->
+			<mvc:mapping path="/freeBoard/freeDelete"/> <!-- 삭제 요청 -->
 			<ref bean="BoardAuthHandler"/>
+		</mvc:interceptor>
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/user/userMyPage"/>
+			<mvc:mapping path="/freeBoard/freeRegist"/>
+			<ref bean="UserAuthHandler"/>
 		</mvc:interceptor>
 	</mvc:interceptors>
 </beans>

@@ -28,16 +28,19 @@ public class BoardAuthHandler implements HandlerInterceptor {
 		HttpSession session = request.getSession();
 //		System.out.println(session);
 		
-		response.setCharacterEncoding("UTF-8"); 
+//		response.setCharacterEncoding("UTF-8"); 
 		response.setContentType("text/html; charset=UTF-8");
-		
 		PrintWriter out = response.getWriter();
+		
 		UserVO vo = (UserVO) session.getAttribute("login");
+//		String id = vo.getUserId();
+		System.out.println(vo);
+//		System.out.println(id);
+
 		if(vo!=null) {
-			String id = ((UserVO)session.getAttribute("login")).getUserId();
-			if(!writer.equals(id)) {
+			if(!writer.equals(vo.getUserId())) {
 				System.out.println("글쓴이가 아닌 사람");
-				out.print("<script>alert('권한이 없습니다.'); history.back();</script>");
+				out.print("<script>alert('글쓴이가 아님.권한이 없습니다.'); history.back();</script>");
 				out.flush();
 				return false;
 			} else {
@@ -51,6 +54,24 @@ public class BoardAuthHandler implements HandlerInterceptor {
 			return false;
 		}
 		
+		/*
+		if(vo!=null) {
+			if(writer.equals(vo.getUserId())) {
+				System.out.println("글쓴이가 들어옴");
+				return true;
+			} else {
+				System.out.println("글쓴이가 아닌 사람");
+				out.print("<script>alert('글쓴이가 아님.권한이 없습니다.'); history.back();</script>");
+				out.flush();
+				return false;
+			}
+		} else {
+			System.out.println("로긘x");
+			out.print("<script>alert('권한이 없습니다.'); history.back();</script>");
+			out.flush();
+			return false;
+		}
+		*/
 		 
 		
 		

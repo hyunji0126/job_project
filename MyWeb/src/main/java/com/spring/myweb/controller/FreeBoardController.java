@@ -64,7 +64,7 @@ public class FreeBoardController {
 		model.addAttribute("article", service.getContent(bno));
 	}
 	
-	// 글 수정 페이지 처리
+	// 글 수정 페이지 이동 처리
 	@GetMapping("/freeModify")
 	public void modify(int bno, Model model) {
 		model.addAttribute("article", service.getContent(bno));

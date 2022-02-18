@@ -175,7 +175,7 @@
 			$resultMsg.css('color','green');
 			$('#mail-check-btn').attr('disabled',true);
 			$('#userEmail1').attr('readonly', true);
-			$('#userEmail2').attr('readonly', true);// 여기까지했을때 readonly처럼 보이지만 변경됨
+			$('#userEmail2').attr('readonly', true);// 여기까지했을때 readonly처럼 보이지만 변경됨 , select는 readonly가 제대로 적용되지않음
 			$('#userEmail2').attr('onFocus', 'this.initialSelect = this.selectedIndex');
 			$('#userEmail2').attr('onChange', 'this.selectedIndex = this.initialSelect');
 			

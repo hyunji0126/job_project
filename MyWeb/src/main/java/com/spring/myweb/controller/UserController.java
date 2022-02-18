@@ -1,4 +1,4 @@
-package com.spring.myweb.user.controller;
+package com.spring.myweb.controller;
 
 import java.lang.ProcessBuilder.Redirect;
 
