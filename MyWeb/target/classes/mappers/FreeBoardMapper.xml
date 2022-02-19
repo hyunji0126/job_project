@@ -50,6 +50,7 @@
 		SET title = #{title}, content=#{content}, updatedate = sysdate
 		WHERE bno=#{bno}
 	</update>
+	
 	<delete id="delete">
 		DELETE FROM freeboard
 		WHERE bno = #{bno}

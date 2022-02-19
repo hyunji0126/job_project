@@ -15,6 +15,7 @@ import com.spring.myweb.freeboard.service.IFreeBoardService;
 import com.spring.myweb.util.PageCreator;
 import com.spring.myweb.util.PageVO;
 
+
 @Controller
 @RequestMapping("/freeBoard")
 public class FreeBoardController {
@@ -68,11 +69,13 @@ public class FreeBoardController {
 	@GetMapping("/freeModify")
 	public void modify(int bno, Model model) {
 		model.addAttribute("article", service.getContent(bno));
+		System.out.println("controller freeModify");
 	}
 	
 	// 글 수정하기
 	@PostMapping("/freeUpdate")
 	public String freeUpdate(FreeBoardVO vo, RedirectAttributes ra) {
+		System.out.println("controller freeUpdate");
 		service.update(vo);
 		ra.addFlashAttribute("msg", "수정이 완료되었습니다.");
 		return "redirect:/freeBoard/freeDetail?bno=" + vo.getBno();

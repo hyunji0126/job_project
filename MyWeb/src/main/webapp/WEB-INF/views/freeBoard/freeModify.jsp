@@ -12,8 +12,7 @@
 					<p>수정하기</p>
 				</div>
 
-				<form action="<c:url value='/freeBoard/freeUpdate' />"
-					name="updateForm" method="post">
+				<form action="<c:url value='/freeBoard/freeUpdate' />" name="updateForm" method="post">
 					<div>
 						<label>DATE</label>
 						<p>${article.regdate }</p>
@@ -64,6 +63,7 @@
 	글 상세보기 페이지에서 처리될 수 있도록 해 주세요.
 	 */
 	const $updateBtn = document.getElementById('updateBtn');
+	console.log('updateBtn');
 	$updateBtn.onclick = function() {
 		if(document.updateForm.title.value === ''){
 			alert('제목은 필수 항목 입니다');

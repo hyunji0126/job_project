@@ -378,7 +378,7 @@
 				
 			},
 			error : function(request, status, error) {
-				console.log('code:' + request + '\n' + request.responseText + '\' + 'error : ' + error);
+				console.log('code:' + request + '\n' + request.responseText + '\n' + 'error : ' + error);
 				alert('업로드에 실패. 관리자 문의 ㄱㄱㄱ');
 			}
 		});//ajax end
@@ -401,10 +401,11 @@
                
                reader.onload = function(event) { //읽기 동작이 성공적으로 완료 되었을 때 실행되는 익명함수
                    $('#fileImg').attr("src", event.target.result); 
-                   console.log(event.target)//event.target은 이벤트로 선택된 요소를 의미
+                   console.log(event.target);//event.target은 이벤트로 선택된 요소를 의미
               }
            }
        }
+      
       $("#file").change(function() {
            readURL(this); //this는 #file자신 태그를 의미
            

@@ -20,6 +20,7 @@ import com.spring.myweb.command.UploadVO;
 @RequestMapping("/fileupload")
 public class UploadController {
 
+	//upload.jsp 페이지 이동 요청
 	@GetMapping("upload")
 	public void form() {}
 

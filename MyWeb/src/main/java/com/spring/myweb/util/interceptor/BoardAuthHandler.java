@@ -37,11 +37,10 @@ public class BoardAuthHandler implements HandlerInterceptor {
 		System.out.println(vo);
 //		System.out.println(id);
 
-		if(vo!=null) {
+		if(vo!=null) {//로긘되었을떄
 			if(!writer.equals(vo.getUserId())) {
 				System.out.println("글쓴이가 아닌 사람");
-				out.print("<script>alert('글쓴이가 아님.권한이 없습니다.'); history.back();</script>");
-				out.flush();
+				response.sendRedirect(request.getContextPath()); ;
 				return false;
 			} else {
 				System.out.println("글쓴이가 들어옴");

@@ -33,8 +33,8 @@ public class SnsBoardController {
 	
 	@PostMapping("/upload")
 	@ResponseBody // 비동기방식으로 받으니까
-	public String upload(MultipartFile file, String content, //파일, 내용, 세션받으려고 매개변수 이렇게 씀
-						 HttpSession session ) {//폼데이터 객체에 content로 담았으니 이름같게 맞춰줘야함
+	public String upload(MultipartFile file, String content, //파일, 내용, 세션받으려고 매개변수 이렇게 씀 ,  HttpSession session 받는 이유는 로긘id를 받아오려고
+						 HttpSession session ) {//폼데이터 객체에 content로 담았으니 이름같게 맞춰줘야함 
 		try {
 			
 			String writer = ((UserVO)session.getAttribute("login")).getUserId();
