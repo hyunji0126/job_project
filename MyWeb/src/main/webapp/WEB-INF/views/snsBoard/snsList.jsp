@@ -1,8 +1,10 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
+<!-- 
    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,9 +12,10 @@
 
     <link href="${pageContext.request.contextPath }/resources/css/bootstrap.css" rel="stylesheet">
     <script src="${pageContext.request.contextPath }/resources/js/jquery.js"></script>
-    <!--개인 디자인 추가-->
+    개인 디자인 추가
     <link href="${pageContext.request.contextPath }/resources/css/style.css" rel="stylesheet">
     <script src="${pageContext.request.contextPath }/resources/js/bootstrap.js"></script>
+ -->
    <style type="text/css">
    section {
       margin-top: 70px;
@@ -258,7 +261,7 @@
                </div>
                <div class="like-inner">
                   <!--좋아요-->
-                  <img src="../resources/img/icon.jpg"> <span>522</span>
+                  <img src="../resources/img/like.png"> <span>522</span>
                </div>
                <div class="link-inner">
                   <a href="##"><i class="glyphicon glyphicon-thumbs-up"></i>좋아요</a>
@@ -362,7 +365,7 @@
 		// 우리는 multiple 속성을 주지 않았기 떄문에 0번 인덱스 밖에 없는 겁니다..
 		
 		// FormData 객체에 사용자가 업로드한 파일의 정보들이 들어있는 객체를 전달
-		FormData.append('file', data[0].files[0]);
+		formData.append('file', data[0].files[0]);
 		//content(글내용) 값을 얻어와서 폼 데이터에 추가
 		const content = $('#content').val();
 		formData.append('content',content);
@@ -372,10 +375,17 @@
 			url : '<c:url value="/snsBoard/upload" />',
 			type : 'post',
 			data : formData, // 폼데이터 객체를 넘깁니다.
-			content : false, // ajax방식에서 파이릉ㄹ 넘길때는 반드시 false로 처리하면 폼태그에 "multipart/form-data"로 선언됨
+			contentType : false, // ajax방식에서 파이릉ㄹ 넘길때는 반드시 false로 처리하면 폼태그에 "multipart/form-data"로 선언됨
 			processData : false, // 폼 데이터를 &변수=값&변수=값...형식으로 변경되는 것을 막는 요소
 			success : function(rs) {
-				
+				if(rs === 'success') {
+					$('#file').val(''); // 파일 선택지 비우기
+					$('#content').val(''); // 글 영역 비우기
+					$('.fileDiv').css('display', 'none'); // 미리보기 감추기
+					getList(1, true); // 글 목록을 호출
+				} else {
+					alert('업로드 실패 관리자에 문의 ㄱ');
+				}
 			},
 			error : function(request, status, error) {
 				console.log('code:' + request + '\n' + request.responseText + '\n' + 'error : ' + error);
@@ -384,10 +394,167 @@
 		});//ajax end
 		
 		
-      }
+      } // end regist()
+      //리스트 작업
+      let str = '';
+      let page = 1;
+      getList(1, true);
       
-   });
+      function getList(page, reset) {
+    	  if(reset === true){
+    		  str = ''; //화면 리셋 여부가 true라면 str변수를 초기화
+    	  }
+    	  
+    	  $.getJSON(
+    			  '<c:url value="/snsBoard/getList?pageNum=' + page +'" />',
+    		function(list) { 
+    		//컨트롤러가 넘겨주는 list
+				console.log(list);
+    			for(let i=0; i<list.length; i++){
+    				str += "<div class='title-inner'>";
+                    str += "<div class='profile'>";
+                    str += "<img src='../resources/img/profile.png' >";    
+                    str += "</div>";
+                    str += "<div class='title'>";
+                    str += "<p>"+ list[i].writer +"</p>";
+                    str += "<small>"+ timeStamp(list[i].regdate) +"</small> &nbsp;&nbsp;";
+                    //파일다운로드
+                    str += "<a href='download?fileLoca=" + list[i].fileloca + "&fileName=" + list[i].filename +" '>이미지 다운로드</a>";
+                    //파일다운로드끝
+                    str += "</div>";
+                    str += "<div class='content-inner'>"
+                    str += "<p>"+ (list[i].content === null ? '' : list[i].content) +"</p>";
+                    str += "</div>";
+                    /* 이미지 영역 */
+                    str += "<div class='image-inner'>";
+                    str += "<a href=' " + list[i].bno + "'>"; ///////글번호 붙여서 a태그 추가
+                    str += "<img src='display?fileLoca=" + list[i].fileloca + "&fileName=" + list[i].filename + "' />";
+                    str += "</a>" ////////추가
+                    str += "</div>";
+                    str += "<div class='like-inner'>";                   
+                    str += "<img src='../resources/img/like.png'><span>522</span>";                  
+                    str += "</div>";
+                    str += "<div class='link-inner'>";                     
+                    str += "<a href='##'><i class='glyphicon glyphicon-thumbs-up'></i>좋아요</a>";
+                    str += "<a href='##'><i class='glyphicon glyphicon-comment'></i>댓글달기</a>";
+                    str += "<a href='" + list[i].bno + "'><i class='glyphicon glyphicon-remove'></i>삭제하기</a>";
+                    str += "</div>";
+                    $('#contentDiv').html(str);//이걸써야 str추가하겠다 요 의미
+    			}
+    		
+			}
+    	  ); //end getJSON
+	}//end gtList()
+      	
+	// 상세보기 처리(모달창 열어줄 겁니다.)
+	$('#contentDiv').on('click','.image-inner a', function(e) {
+		e.preventDefault();
+		
+		// 글 번호 얻어오기
+		const bno = $(this).attr('href');
+		
+		$.getJSON(
+			"<c:url value='/snsBoard/getDetail/' />" + bno,
+			function(data) {
+				console.log(data);
+				
+				const img = 'display?fileLoca=' + data.fileloca + '&fileName=' + data.filename;
+				$('#snsImg').attr('src', img);//이미지 경로 처리
+				$('#snsWriter').html(data.writer);//작성자 처리
+				$('#snsRegdate').html(timeStamp(data.regdate)); //날짜 처리
+				$('#snsContent').html(data.content);//내용처리
+				$('#snsModal').modal('show');//모달열기
+			}
+		);
+	}); //상세보기 이벤트 끝
+	
+	// 삭제처리
+	// 삭제하기 링크를 클릭했을때 이벤트를 발생시켜서
+	// 비동기 방식으로 삭제를 ㅣㄴ행해주세요(삭제버튼은 한 화면에 여러개 겠죠?)-- 부모타입에 걸어서 자식지목
+	// 서버쪽에서 권한을 확인해 주세요(작성자와 로긘 중이 ㄴ사용자의 id를 비교해서)
+	// 일치하지 않으면 문자열"noAuth" 리턴, 성공하면"Success"리턴
+	// url : /snsBoard/delete, method:post
+      $('#contentDiv').on('click', '.link-inner a', function(e) {
+		e.preventDefault();
+		
+		const bno = $(this).attr('href');
+			
+		$.ajax({
+			url : "<c:url value='/snsBoard/delete' />",
+			method: "post",
+			data : bno,
+			contentType : "application/json",
+			success : function(rs) {
+				if(rs === 'noAuth'){
+					alert('권한 ㄴㄴ. 로긘하고 오렴');
+				} else if(rs==='fail') {
+					alert('삭제실패 fail');
+					
+				}
+				else { 
+					alert('잘 삭제 ㅇㅇ');
+					getList(1, true);
+					
+				}
+			},
+			error : function() {
+				alert('삭제실패 다시 ㄱ , error');
+			}
+		});
+		
+      });
+      
+	//무한 스크롤
+	      
+     $(window).scroll(function() {
+		// 윈도우(device)의 높이와 현재 스크롤 위치 값을 더한 뒤, 문서(컨텐츠) 높이와 비교해서 같다면 로직을 수행
+		// 문서 높이 - 브라우저 창 높이 = 스크롤 창의 끝 높이와 같다면 -> 새로운 내용을 불러오자
+		if(Math.round($(window).scrollTop()) == $(document).height() - $(window).height()){
+			console.log('스크롤 추가!');
+			//console.log(++paging);
+			//$('#contentDiv').append("<h1> Page: " + page + "</h1>");
+	        //$('#contentDiv').append("<br>무한<br>페이징<br>로드<br>중입니다~~~<br><br>무한<br>페이징<br>로드<br>중입니다~~~<br><br>무한<br>페이징<br>로드<br>중입니다~~~<br><br>무한<br>페이징<br>로드<br>중입니다~~~<br>");
+		
+           // 목록 불러오기의 sql문을페이징 쿼리를 사용해서 작성을 해 주시는 겁니다.
+           // 사용자의 스크롤이 바닥에 닿았을 떄, 페이지 변수의 값을 하나 올리고
+           // getList(false)를 주셔서 누적해서 계속 열어 주시면 됩니다.
+           // 게시글을 몇 개씩 불러 올지는 페이징 알고리즘에서 알아서 정해 주시면 됩니다.
+           getList(++page, false);
+		}
+			
+	});
+    	 
+	
+   }); // end jquery
    
+   
+// 날짜 처리 함수
+   function timeStamp(millis) {
+      
+      const date = new Date(); //현재 날짜
+      //현재 날짜를 밀리초로 변환 - 등록일 밀리초 -> 시간차
+      const gap = date.getTime() - millis;
+      
+      let time; //리턴할 시간
+      if(gap < 60 * 60 * 24 * 1000) { //1일 미만인 경우
+         if(gap < 60 * 60 * 1000) { //1시간 미만일 경우
+            time = '방금 전';
+         } else { //1시간 이상일 경우
+            time = parseInt(gap / (1000 * 60 * 60)) + '시간 전';
+         }
+      } else { //1일 이상일 경우
+         const today = new Date(millis);
+         const year = today.getFullYear(); //년
+         const month = today.getMonth() + 1; //월
+         const day = today.getDate(); //일
+         const hour = today.getHours(); //시
+         const minute = today.getMinutes(); //분
+         
+         time = year + '년 ' + month + '월 ' + day + '일 ' + hour + '시 ' + minute + '분'; 
+         
+      }
+      return time;
+   }
    
       //자바 스크립트 파일 미리보기 기능
       function readURL(input) {
@@ -410,9 +577,29 @@
            readURL(this); //this는 #file자신 태그를 의미
            
        });
+      
+       
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
    </script>
    
    
    
 </body>
 </html>
+    
