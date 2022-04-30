@@ -30,11 +30,6 @@ public class UserAuthHandler implements HandlerInterceptor{
 		}
 		return true;
 		
-		
-		
-		
-		
-		
 	}
 	
 	

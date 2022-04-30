@@ -145,8 +145,7 @@
 		$.ajax({
 			type : 'post',
 			url : '<c:url value="/reply/replyRegist" />',
-			data : JSON
-					.stringify({
+			data : JSON.stringify({
 						"bno" : bno,
 						"reply" : reply,
 						"replyId" : replyId,
